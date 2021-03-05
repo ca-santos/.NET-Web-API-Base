@@ -29,7 +29,7 @@ namespace MovieMaker.Application.Features.Movies.Handlers
         {
 
             // Verifica se o genero enviado existe na base
-            var genreCallback = await _genreRepository.GetById(request.GenreId);
+            var genreCallback = await _genreRepository.GetByIdAsync(request.GenreId);
             if (genreCallback.HasError)
                 return genreCallback.Error;
 

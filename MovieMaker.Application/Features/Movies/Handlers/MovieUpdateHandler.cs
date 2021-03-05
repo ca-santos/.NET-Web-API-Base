@@ -28,8 +28,14 @@ namespace MovieMaker.Application.Features.Movies.Handlers
         public async Task<Response<Exception, Movie>> Handle(MovieUpdateCommand request, CancellationToken cancellationToken)
         {
 
+            var movieCallback = await _movieRepository.GetByIdAsync(request.Id);
+
+            if (movieCallback.HasError)
+                return movieCallback.Error;
+
             // Verifica se o genero enviado existe na base
-            var genreCallback = await _genreRepository.GetById(request.GenreId);
+            var genreCallback = await _genreRepository.GetByIdAsync(request.GenreId);
+
             if (genreCallback.HasError)
                 return genreCallback.Error;
 

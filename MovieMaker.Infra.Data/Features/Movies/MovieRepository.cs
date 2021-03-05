@@ -31,7 +31,7 @@ namespace MovieMaker.Infra.Data.Features.Movies
 
         }
 
-        public async Task<Response<Exception, Movie>> GetById(int id)
+        public async Task<Response<Exception, Movie>> GetByIdAsync(int id)
         {
 
             var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
@@ -74,7 +74,7 @@ namespace MovieMaker.Infra.Data.Features.Movies
         public async Task<Response<Exception, AppUnit>> DeleteAsync(int id)
         {
 
-            var movieCallback = await GetById(id);
+            var movieCallback = await GetByIdAsync(id);
 
             if (movieCallback.HasError)
                 return movieCallback.Error;

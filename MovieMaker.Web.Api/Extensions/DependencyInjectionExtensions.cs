@@ -19,7 +19,7 @@ namespace MovieMaker.Web.Api.Extensions
             var section = configuration.GetSection("AppSettings");
             var settings = section.Get<AppSettings>();
 
-            services.AddDbContext<MovieMakerDbContext>(options => options.UseSqlServer(settings.ConnectionString));
+            services.AddDbContext<MovieMakerDbContext>(options => options.UseSqlServer(settings.ConnectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         private static void AddRepositories(IServiceCollection services)

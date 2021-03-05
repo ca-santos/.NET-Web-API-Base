@@ -7,11 +7,15 @@ namespace MovieMaker.Domain.Features.Genres
 {
     public interface IGenreRepository
     {
-        Task<Response<Exception, Genre>> CreateAsync(Genre genre);
-
         Response<Exception, IQueryable<Genre>> GetAll();
 
-        Task<Response<Exception, Genre>> GetById(int id);
+        Task<Response<Exception, Genre>> GetByIdAsync(int id);
+
+        Task<Response<Exception, Genre>> CreateAsync(Genre genre);
+
+        Task<Response<Exception, Genre>> UpdateAsync(Genre genre);
+
+        Task<Response<Exception, AppUnit>> DeleteAsync(int id);
 
     }
 }

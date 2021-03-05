@@ -19,10 +19,32 @@ namespace MovieMaker.Infra.Data.Features.Movies
             _context = context;
         }
 
+        public Response<Exception, IQueryable<Genre>> GetAll()
+        {
+
+            var movies = _context.Genres                
+                .AsNoTracking();
+
+            return movies.ToResponse();
+
+        }
+
+        public async Task<Response<Exception, Genre>> GetByIdAsync(int id)
+        {
+
+            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (genre == null)
+                return new NotFoundException("Gênero", id);
+
+            return genre;
+
+        }
+
         public async Task<Response<Exception, Genre>> CreateAsync(Genre genre)
         {
 
-            var newGenre = _context.Add(genre).Entity;
+            var newGenre = _context.Genres.Add(genre).Entity;
 
             var saveCallback = await Response.Run(() => _context.SaveChangesAsync());
 
@@ -33,27 +55,39 @@ namespace MovieMaker.Infra.Data.Features.Movies
 
         }
 
-        public Response<Exception, IQueryable<Genre>> GetAll()
+        public async Task<Response<Exception, Genre>> UpdateAsync(Genre genre)
         {
 
-            var genres = _context.Genres
-                .AsNoTracking();
+            _context.Genres.Update(genre);
 
-            return genres.ToResponse();
+            var saveCallback = await Response.Run(() => _context.SaveChangesAsync());
+
+            if (saveCallback.HasError)
+                return saveCallback.Error;
+
+            return genre;
 
         }
 
-        public async Task<Response<Exception, Genre>> GetById(int id)
+        public async Task<Response<Exception, AppUnit>> DeleteAsync(int id)
         {
-            var genre = await Response.Run(() => _context.Genres.FirstOrDefaultAsync(x => x.Id == id));
 
-            if (genre.HasError)
-                return genre.Error;
+            var genreCallback = await GetByIdAsync(id);
 
-            if(genre.Success == null)
-                return new NotFoundException("Gênero", id);
+            if (genreCallback.HasError)
+                return genreCallback.Error;
 
-            return genre.Success;
+            var deleteCallback = await Response.Run(() =>
+            {
+                _context.Genres.Remove(genreCallback.Success);
+                return _context.SaveChangesAsync();
+            });
+
+            if (deleteCallback.HasError)
+                return deleteCallback.Error;
+
+            return AppUnit.Successful;
+
         }
 
     }

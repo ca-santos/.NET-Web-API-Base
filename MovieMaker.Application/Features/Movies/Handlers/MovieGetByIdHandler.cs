@@ -24,7 +24,7 @@ namespace MovieMaker.Application.Features.Movies.Handlers
         public async Task<Response<Exception, Movie>> Handle(MovieGetByIdQuery request, CancellationToken cancellationToken)
         {
 
-            var movieCallback = await _movieRepository.GetById(request.Id);
+            var movieCallback = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movieCallback.HasError)
                 return movieCallback.Error;

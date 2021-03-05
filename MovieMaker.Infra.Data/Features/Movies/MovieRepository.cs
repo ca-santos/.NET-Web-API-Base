@@ -18,9 +18,18 @@ namespace MovieMaker.Infra.Data.Features.Movies
         public MovieRepository(MovieMakerDbContext context)
         {
             _context = context;
-        }        
+        }
 
         public Response<Exception, IQueryable<Movie>> GetAll()
+        {
+
+            var movies = _context.Movies;
+
+            return movies.ToResponse();
+
+        }
+
+        public Response<Exception, IQueryable<Movie>> GetAllWithDependencies()
         {
 
             var movies = _context.Movies
@@ -34,7 +43,9 @@ namespace MovieMaker.Infra.Data.Features.Movies
         public async Task<Response<Exception, Movie>> GetByIdAsync(int id)
         {
 
-            var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+            var movie = await _context.Movies
+                .Include(e => e.Genre)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (movie == null)
                 return new NotFoundException("Filme", id);

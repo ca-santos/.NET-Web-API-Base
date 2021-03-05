@@ -12,6 +12,8 @@ namespace MovieMaker.Domain.Features.Movies
 
         Response<Exception, IQueryable<Movie>> GetAll();
 
+        Response<Exception, IQueryable<Movie>> GetAllWithDependencies();
+
         Task<Response<Exception, Movie>> GetByIdAsync(int id);
 
         Task<Response<Exception, Movie>> CreateAsync(Movie movie);

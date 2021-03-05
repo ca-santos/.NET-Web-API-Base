@@ -1,5 +1,7 @@
 ﻿using MovieMaker.Domain.DomainObjects;
+using MovieMaker.Domain.Features.Movies;
 using System;
+using System.Collections.Generic;
 
 namespace MovieMaker.Domain.Features.Genres
 {
@@ -11,6 +13,8 @@ namespace MovieMaker.Domain.Features.Genres
         public DateTime CreatedAt { get; set; }
 
         public bool Active { get; set; }
+
+        public virtual List<Movie> Movies { get; set; }
 
     }
 }

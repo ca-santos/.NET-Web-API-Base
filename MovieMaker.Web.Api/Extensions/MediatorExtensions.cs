@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace MovieMaker.Web.Api.Extensions
 {
+    // Baseado em: https://medium.com/@akojavakhishvili/how-to-be-more-declarative-when-implementing-cqrs-with-mediatr-in-net-core-c8b9ff7ea2a4
     public static class MediatorExtensions
     {
 
@@ -37,6 +38,7 @@ namespace MovieMaker.Web.Api.Extensions
                     .AsImplementedInterfaces();
             }
 
+            // Baseado em: https://github.com/jbogard/MediatR/wiki/Behaviors
             containerBuilder.RegisterGeneric(typeof(ValidationPipeline<,>)).As(typeof(IPipelineBehavior<,>));
             containerBuilder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             containerBuilder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));

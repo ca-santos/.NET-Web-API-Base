@@ -39,7 +39,7 @@ namespace MovieMaker.Application.Features.Movies.Handlers
             if (genreCallback.HasError)
                 return genreCallback.Error;
 
-            var movieMap = Mapper.Map<MovieUpdateCommand, Movie>(request);
+            var movieMap = Mapper.Map(request, movieCallback.Success);
 
             var newMovieCallback = await _movieRepository.UpdateAsync(movieMap);
 

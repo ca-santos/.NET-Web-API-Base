@@ -56,6 +56,9 @@ namespace MovieMaker.Infra.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<int?>("ActiveRentalId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -67,14 +70,11 @@ namespace MovieMaker.Infra.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("RentalId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("ActiveRentalId");
 
-                    b.HasIndex("RentalId");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
                 });
@@ -87,9 +87,11 @@ namespace MovieMaker.Infra.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CustomerCPF")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
-                    b.Property<DateTime>("RentedOn")
+                    b.Property<DateTime>("RentedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -99,15 +101,24 @@ namespace MovieMaker.Infra.Data.Migrations
 
             modelBuilder.Entity("MovieMaker.Domain.Features.Movies.Movie", b =>
                 {
-                    b.HasOne("MovieMaker.Domain.Features.Genres.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId");
-
-                    b.HasOne("MovieMaker.Domain.Features.Rentals.Rental", null)
+                    b.HasOne("MovieMaker.Domain.Features.Rentals.Rental", "ActiveRental")
                         .WithMany("Movies")
-                        .HasForeignKey("RentalId");
+                        .HasForeignKey("ActiveRentalId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("MovieMaker.Domain.Features.Genres.Genre", "Genre")
+                        .WithMany("Movies")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ActiveRental");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("MovieMaker.Domain.Features.Genres.Genre", b =>
+                {
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("MovieMaker.Domain.Features.Rentals.Rental", b =>

@@ -14,11 +14,9 @@ services:
     container_name: mmaker-api
     build:
       context: ./
-      args:
-        ENV: development
     depends_on:
       - mmaker-database
     links:
       - mmaker-database
     ports:
-      - 5001:80
+      - 80:80

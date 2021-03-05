@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 namespace MovieMaker.Web.Api.Base
 {
 
+    // Baseado em: https://github.com/jbogard/MediatR/wiki/Behaviors
+
     public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, Response<Exception, TResponse>>
         where TRequest : IRequestWithResponse<TResponse>
     {

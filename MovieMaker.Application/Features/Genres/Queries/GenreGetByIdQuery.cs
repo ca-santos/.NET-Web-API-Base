@@ -1,12 +1,10 @@
-﻿using MediatR;
+﻿using MovieMaker.Application.Base;
 using MovieMaker.Domain.Features.Genres;
-using MovieMaker.Infra.Shared;
-using System;
 
 namespace MovieMaker.Application.Features.Genres.Queries
 {
 
-    public class GenreGetByIdQuery : IRequest<Response<Exception, Genre>>
+    public class GenreGetByIdQuery : IRequestWithResponse<Genre>
     {
 
         public int Id { get; set; }

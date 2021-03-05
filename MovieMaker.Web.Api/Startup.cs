@@ -5,10 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieMaker.Web.Api.Extensions;
-using FluentValidation.AspNetCore;
-using MovieMaker.Application;
 using Microsoft.AspNetCore.Mvc;
-using MovieMaker.Web.Api.Base;
+
 
 namespace MovieMaker
 {
@@ -52,10 +50,8 @@ namespace MovieMaker
             services.AddControllers();
             services.AddAutoMapper();
             services.AddSwagger();
-
-            services.AddMvc()
-                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<AppModule>());
-
+            services.AddMvcConfig();                
+            
             services.Configure<ApiBehaviorOptions>(config =>
             {
                 config.SuppressModelStateInvalidFilter = true;

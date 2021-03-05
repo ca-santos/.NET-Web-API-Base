@@ -12,7 +12,8 @@ namespace MovieMaker.Application.Features.Genres
 
             CreateMap<GenreCreateCommand, Genre>();
 
-            CreateMap<GenreUpdateCommand, Genre>();
+            CreateMap<GenreUpdateCommand, Genre>()
+                .ForMember(x => x.CreatedAt, opt => opt.Ignore());
 
         }
 

@@ -23,7 +23,7 @@ namespace MovieMaker.Application.Features.Movies.Handlers
 
         public async Task<Response<Exception, IQueryable<Movie>>> Handle(MovieGetAllQuery request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(_movieRepository.GetAll());
+            return await Task.FromResult(_movieRepository.GetAllWithDependencies());
         }
 
     }

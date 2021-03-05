@@ -14,7 +14,8 @@ namespace MovieMaker.Application.Features.Movies
                 .ForMember(m => m.Genre, opt => opt.Ignore());
 
             CreateMap<MovieUpdateCommand, Movie>()
-                .ForMember(m => m.Genre, opt => opt.Ignore());
+                .ForMember(m => m.Genre, opt => opt.Ignore())
+                .ForMember(x => x.CreatedAt, opt => opt.Ignore());
 
         }
 

@@ -28,8 +28,8 @@ namespace MovieMaker.Infra.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerCPF = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RentedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CustomerCPF = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
+                    RentedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,7 +46,7 @@ namespace MovieMaker.Infra.Data.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     GenreId = table.Column<int>(type: "int", nullable: true),
-                    RentalId = table.Column<int>(type: "int", nullable: true)
+                    ActiveRentalId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,24 +56,24 @@ namespace MovieMaker.Infra.Data.Migrations
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_Movies_Rentals_RentalId",
-                        column: x => x.RentalId,
+                        name: "FK_Movies_Rentals_ActiveRentalId",
+                        column: x => x.ActiveRentalId,
                         principalTable: "Rentals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_ActiveRentalId",
+                table: "Movies",
+                column: "ActiveRentalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_GenreId",
                 table: "Movies",
                 column: "GenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Movies_RentalId",
-                table: "Movies",
-                column: "RentalId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

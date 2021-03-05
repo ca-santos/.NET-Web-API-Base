@@ -29,7 +29,7 @@ namespace MovieMaker.Application.Features.Genres.Handlers
             if (genreCallback.HasError)
                 return genreCallback.Error;
 
-            var genreMap = Mapper.Map<GenreUpdateCommand, Genre>(request);
+            var genreMap = Mapper.Map(request, genreCallback.Success);
 
             var newGenreCallback = await _genreRepository.UpdateAsync(genreMap);
 

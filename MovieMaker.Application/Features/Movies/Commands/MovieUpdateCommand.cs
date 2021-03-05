@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using MediatR;
+using MovieMaker.Application.Base;
 using MovieMaker.Domain.Features.Movies;
-using MovieMaker.Infra.Shared;
-using System;
 
 namespace MovieMaker.Application.Features.Movies.Commands
 {
-    public class MovieUpdateCommand : IRequest<Response<Exception, Movie>>
+    public class MovieUpdateCommand : IRequestWithResponse<Movie>
     {
 
         public int Id { get; set; }
@@ -24,6 +22,15 @@ namespace MovieMaker.Application.Features.Movies.Commands
 
         public MovieUpdateCommandValidator()
         {
+
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(200)
+                .WithName("Nome do filme");
+
+            RuleFor(x => x.GenreId)
+                .NotEmpty()
+                .WithName("Identificador do gênero");
 
         }
 

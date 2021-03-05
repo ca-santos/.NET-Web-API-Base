@@ -20,10 +20,15 @@ namespace MovieMaker.Web.Api.Base
 
         public static ExceptionBase GenerateNewError<T>(T exception, HttpStatusCode errorCode, int internalCode = 0, List<ValidationFailure> failures = null) where T : Exception
         {
+            var message = exception.Message;
+
+            if (exception is FluentValidation.ValidationException)
+                message = "Erros de validação foram encontrados.";            
+
             return new ExceptionBase
             {
                 HttpCode = errorCode,
-                ErrorMessage = exception.Message,
+                ErrorMessage = message,
                 Errors = failures,
                 InternalCode = internalCode != 0 ? internalCode : (int)errorCode
             };

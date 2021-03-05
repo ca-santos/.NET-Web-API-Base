@@ -3,6 +3,7 @@ using MediatR;
 using MediatR.Pipeline;
 using MovieMaker.Application;
 using MovieMaker.Application.Features.Movies.Commands;
+using MovieMaker.Web.Api.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -36,14 +37,11 @@ namespace MovieMaker.Web.Api.Extensions
                     .AsImplementedInterfaces();
             }
 
-            // It appears Autofac returns the last registered types first
-            // containerBuilder.RegisterGeneric(typeof(ValidationPipeline<,>)).As(typeof(IPipelineBehavior<,>));
-            // containerBuilder.RegisterGeneric(typeof(TransactionPipeline<,>)).As(typeof(IPipelineBehavior<,>));
-
+            containerBuilder.RegisterGeneric(typeof(ValidationPipeline<,>)).As(typeof(IPipelineBehavior<,>));
             containerBuilder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             containerBuilder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            containerBuilder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            containerBuilder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            containerBuilder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));            
+            containerBuilder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));            
 
             containerBuilder.Register<ServiceFactory>(ctx =>
             {

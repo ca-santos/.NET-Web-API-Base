@@ -71,5 +71,11 @@ namespace MovieMaker.Web.Api.Controllers.Movies
             return HandleCommand(await _mediator.Send(movieDeleteCommand));
         }
 
+        [HttpDelete("Multiple")]
+        public async Task<IActionResult> DeleteMultiple([FromBody] MovieDeleteMultipleCommand movieDeleteMultipleCommand)
+        {
+            return HandleCommand(await _mediator.Send(movieDeleteMultipleCommand));
+        }
+
     }
 }

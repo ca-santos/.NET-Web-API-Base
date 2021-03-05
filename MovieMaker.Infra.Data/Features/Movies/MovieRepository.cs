@@ -4,6 +4,7 @@ using MovieMaker.Infra.Data.Context;
 using MovieMaker.Infra.Exceptions;
 using MovieMaker.Infra.Shared;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -81,6 +82,22 @@ namespace MovieMaker.Infra.Data.Features.Movies
             var deleteCallback = await Response.Run(() =>
             {
                 _context.Remove(movieCallback.Success);
+                return _context.SaveChangesAsync();
+            });
+
+            if (deleteCallback.HasError)
+                return deleteCallback.Error;
+
+            return AppUnit.Successful;
+
+        }
+        
+        public async Task<Response<Exception, AppUnit>> DeleteMultipleAsync(List<int> ids)
+        {
+
+            var deleteCallback = await Response.Run(() =>
+            {
+                _context.RemoveRange(_context.Movies.Where(x => ids.Contains(x.Id)));
                 return _context.SaveChangesAsync();
             });
 

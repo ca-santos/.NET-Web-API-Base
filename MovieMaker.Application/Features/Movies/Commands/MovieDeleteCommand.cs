@@ -1,15 +1,28 @@
 ﻿using FluentValidation;
-using MediatR;
+using MovieMaker.Application.Base;
 using MovieMaker.Infra.Shared;
-using System;
 
 namespace MovieMaker.Application.Features.Movies.Commands
 {
 
-    public class MovieDeleteCommand : IRequest<Response<Exception, AppUnit>>
+    public class MovieDeleteCommand : IRequestWithResponse<AppUnit>
     {
 
         public int Id { get; set; }
+
+    }
+
+    public class MovieDeleteCommandValidator : AbstractValidator<MovieDeleteCommand>
+    {
+
+        public MovieDeleteCommandValidator()
+        {
+
+            RuleFor(x => x.Id)
+                .NotEmpty()                
+                .WithName("Identificador do filme");
+
+        }
 
     }
 

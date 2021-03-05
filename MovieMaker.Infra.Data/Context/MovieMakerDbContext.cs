@@ -2,6 +2,7 @@
 using MovieMaker.Domain.Features.Genres;
 using MovieMaker.Domain.Features.Movies;
 using MovieMaker.Domain.Features.Rentals;
+using MovieMaker.Infra.Data.Features.Genres;
 using MovieMaker.Infra.Data.Features.Movies;
 using System.Linq;
 
@@ -26,7 +27,7 @@ namespace MovieMaker.Infra.Data.Context
         {
 
             modelBuilder.ApplyConfiguration(new MovieEntityConfiguration());
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new GenreEntityConfiguration());
 
         }
 

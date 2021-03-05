@@ -9,23 +9,23 @@ namespace MovieMaker.Infra.Shared
     public struct Response<TError, TSuccess> where TError : Exception
     {
 
-        public TError Failure { get; internal set; }
+        public TError Error { get; internal set; }
         public TSuccess Success { get; internal set; }
 
-        public bool IsFailure { get; }
-        public bool IsSuccess => !IsFailure;
+        public bool HasError { get; }
+        public bool IsSuccess => !HasError;
 
         internal Response(TError failure)
         {
-            IsFailure = true;
-            Failure = failure;
+            HasError = true;
+            Error = failure;
             Success = default;
         }
 
         internal Response(TSuccess success)
         {
-            IsFailure = false;
-            Failure = default;
+            HasError = false;
+            Error = default;
             Success = success;
         }
 

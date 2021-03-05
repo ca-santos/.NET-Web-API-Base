@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MovieMaker.Domain.Features.Genres;
 using MovieMaker.Domain.Features.Movies;
 using MovieMaker.Infra.Data.Context;
 using MovieMaker.Infra.Data.Features.Movies;
@@ -24,6 +25,7 @@ namespace MovieMaker.Web.Api.Extensions
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
         }
 
     }

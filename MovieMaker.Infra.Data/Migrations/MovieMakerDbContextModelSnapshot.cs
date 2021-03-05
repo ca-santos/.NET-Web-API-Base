@@ -27,13 +27,17 @@ namespace MovieMaker.Infra.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -55,7 +59,7 @@ namespace MovieMaker.Infra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int?>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -97,9 +101,7 @@ namespace MovieMaker.Infra.Data.Migrations
                 {
                     b.HasOne("MovieMaker.Domain.Features.Genres.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenreId");
 
                     b.HasOne("MovieMaker.Domain.Features.Rentals.Rental", null)
                         .WithMany("Movies")

@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace MovieMaker.Application.Features.Movies.Handlers
 {
-    public class MovieCreateHandler : IRequestHandler<MovieCreateCommand, Response<Exception, Movie>>
+    public class MovieUpdateHandler : IRequestHandler<MovieUpdateCommand, Response<Exception, Movie>>
     {
 
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
 
-        public MovieCreateHandler(
+        public MovieUpdateHandler(
             IMovieRepository movieRepository,
             IGenreRepository genreRepository
         )
@@ -25,7 +25,7 @@ namespace MovieMaker.Application.Features.Movies.Handlers
             _genreRepository = genreRepository;
         }
 
-        public async Task<Response<Exception, Movie>> Handle(MovieCreateCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Exception, Movie>> Handle(MovieUpdateCommand request, CancellationToken cancellationToken)
         {
 
             // Verifica se o genero enviado existe na base
@@ -33,9 +33,9 @@ namespace MovieMaker.Application.Features.Movies.Handlers
             if (genreCallback.HasError)
                 return genreCallback.Error;
 
-            var movieMap = Mapper.Map<MovieCreateCommand, Movie>(request);
+            var movieMap = Mapper.Map<MovieUpdateCommand, Movie>(request);
 
-            var newMovieCallback = await _movieRepository.CreateAsync(movieMap);
+            var newMovieCallback = await _movieRepository.UpdateAsync(movieMap);
 
             if (newMovieCallback.HasError)
                 return newMovieCallback.Error;

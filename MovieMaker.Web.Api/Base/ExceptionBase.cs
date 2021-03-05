@@ -2,29 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace MovieMaker.Web.Api.Base
 {
-    /// <summary>
-    ///  Classe que representa uma exceção lançada para o client como resposta.
-    ///</summary>
+
     public class ExceptionBase
     {
-        public int ErrorCode { get; set; }
+
+        public HttpStatusCode HttpCode { get; set; }
+
+        public int? InternalCode { get; set; }
 
         public string ErrorMessage { get; set; }
 
         public List<ValidationFailure> Errors { get; set; }
 
-        public static ExceptionBase New<T>(T exception, int errorCode, List<ValidationFailure> failures = null) where T : Exception
+        public static ExceptionBase GenerateNewError<T>(T exception, HttpStatusCode errorCode, int internalCode = 0, List<ValidationFailure> failures = null) where T : Exception
         {
             return new ExceptionBase
             {
-                ErrorCode = errorCode,
+                HttpCode = errorCode,
                 ErrorMessage = exception.Message,
                 Errors = failures,
+                InternalCode = internalCode != 0 ? internalCode : (int)errorCode
             };
         }
+
     }
 
     public class ValidationFailure

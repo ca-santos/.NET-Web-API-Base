@@ -1,8 +1,9 @@
-﻿using MovieMaker.Domain.Features.Movies;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieMaker.Domain.Features.Movies;
 using MovieMaker.Infra.Data.Context;
+using MovieMaker.Infra.Exceptions;
 using MovieMaker.Infra.Shared;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,21 +17,7 @@ namespace MovieMaker.Infra.Data.Features.Movies
         public MovieRepository(MovieMakerDbContext context)
         {
             _context = context;
-        }
-
-        public async Task<Response<Exception, Movie>> CreateAsync(Movie movie)
-        {
-
-            var newMovie = _context.Add(movie).Entity;
-
-            var saveCallback = await Response.Run(() => _context.SaveChangesAsync());
-
-            if (saveCallback.IsFailure)
-                return saveCallback.Failure;
-
-            return newMovie;
-
-        }
+        }        
 
         public Response<Exception, IQueryable<Movie>> GetAll()
         {
@@ -40,6 +27,67 @@ namespace MovieMaker.Infra.Data.Features.Movies
                 .AsNoTracking();
 
             return movies.ToResponse();
+
+        }
+
+        public async Task<Response<Exception, Movie>> GetById(int id)
+        {
+
+            var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (movie == null)
+                return new NotFoundException("Filme", id);
+
+            return movie;
+
+        }
+
+        public async Task<Response<Exception, Movie>> CreateAsync(Movie movie)
+        {
+
+            var newMovie = _context.Add(movie).Entity;
+
+            var saveCallback = await Response.Run(() => _context.SaveChangesAsync());
+
+            if (saveCallback.HasError)
+                return saveCallback.Error;
+
+            return newMovie;
+
+        }
+
+        public async Task<Response<Exception, Movie>> UpdateAsync(Movie movie)
+        {
+
+            _context.Update(movie);
+
+            var saveCallback = await Response.Run(() => _context.SaveChangesAsync());
+
+            if (saveCallback.HasError)
+                return saveCallback.Error;
+
+            return movie;
+
+        }
+
+        public async Task<Response<Exception, AppUnit>> DeleteAsync(int id)
+        {
+
+            var movieCallback = await GetById(id);
+
+            if (movieCallback.HasError)
+                return movieCallback.Error;
+
+            var deleteCallback = await Response.Run(() =>
+            {
+                _context.Remove(movieCallback.Success);
+                return _context.SaveChangesAsync();
+            });
+
+            if (deleteCallback.HasError)
+                return deleteCallback.Error;
+
+            return AppUnit.Successful;
 
         }
 

@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieMaker.Application.Features.Movies.Commands;
+using MovieMaker.Application.Features.Movies.Queries;
+using MovieMaker.Domain.Features.Movies;
 using MovieMaker.Web.Api.Base;
+using MovieMaker.Web.Api.Controllers.Movies.ViewModels;
 using System.Threading.Tasks;
 
 namespace MovieMaker.Web.Api.Controllers.Movies
@@ -23,10 +26,21 @@ namespace MovieMaker.Web.Api.Controllers.Movies
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            //var mediator = _mediator.Send();
-            return Ok();
+            var movieGetAllQuery = new MovieGetAllQuery();
+            return HandleQueryable<Movie, MoviesGetAllViewModel>(await _mediator.Send(movieGetAllQuery));            
+        }
+
+        /// <summary>
+        /// Busca um filme pelo id
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var movieGetByIdQuery = new MovieGetByIdQuery { Id = id };
+            return HandleQuery<Movie, MoviesGetByIdViewModel>(await _mediator.Send(movieGetByIdQuery));
         }
 
         /// <summary>
@@ -38,6 +52,23 @@ namespace MovieMaker.Web.Api.Controllers.Movies
         public async Task<IActionResult> Create([FromBody] MovieCreateCommand movieCreateCommand)
         {
             return HandleCommand(await _mediator.Send(movieCreateCommand));
+        }
+
+        /// <summary>
+        /// Atualiza um filme
+        /// </summary>
+        /// <param name="movieUpdateCommand"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] MovieUpdateCommand movieUpdateCommand)
+        {
+            return HandleCommand(await _mediator.Send(movieUpdateCommand));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] MovieDeleteCommand movieDeleteCommand)
+        {
+            return HandleCommand(await _mediator.Send(movieDeleteCommand));
         }
 
     }

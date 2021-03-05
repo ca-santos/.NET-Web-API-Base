@@ -13,9 +13,9 @@ namespace MovieMaker.Infra.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace MovieMaker.Infra.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: true),
                     RentalId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -56,7 +56,7 @@ namespace MovieMaker.Infra.Data.Migrations
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Movies_Rentals_RentalId",
                         column: x => x.RentalId,

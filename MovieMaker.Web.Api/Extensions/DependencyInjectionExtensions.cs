@@ -8,6 +8,7 @@ using MovieMaker.Infra.Data.Context;
 using MovieMaker.Infra.Data.Features.Movies;
 using MovieMaker.Infra.Data.Features.Rentals;
 using MovieMaker.Infra.Settings;
+using System;
 
 namespace MovieMaker.Web.Api.Extensions
 {
@@ -21,9 +22,11 @@ namespace MovieMaker.Web.Api.Extensions
             var section = configuration.GetSection("AppSettings");
             var settings = section.Get<AppSettings>();
 
+            var testEnv = Environment.GetEnvironmentVariable("ConnectionString");
+
             services.AddDbContext<MovieMakerDbContext>(options =>
             {
-                options.UseSqlServer(settings.ConnectionString);
+                options.UseSqlServer("Server=/cloudsql/moviemaker-db;Database=MovieMakerDb;User ID=moviemaker-master;Password=M0vieMak&r;Encrypt=false");
             });
         }
 

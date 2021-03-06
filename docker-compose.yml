@@ -19,4 +19,5 @@ services:
     links:
       - mmaker-database
     ports:
-      - 80:80
+      - "8080:80"
+      - "5000:5000"

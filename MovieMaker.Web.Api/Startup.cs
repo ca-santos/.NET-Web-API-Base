@@ -24,12 +24,16 @@ namespace MovieMaker
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieMaker v1"));
+                                
             }
 
-            app.UseHttpsRedirection();
+            // Deixei o swaager disponível em todos os ambientes para que os docs da
+            // api possam ser expostos de uma forma mais fácil
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieMaker v1"));
+
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -54,7 +58,7 @@ namespace MovieMaker
             
             services.Configure<ApiBehaviorOptions>(config =>
             {
-                config.SuppressModelStateInvalidFilter = true;
+                config.SuppressModelStateInvalidFilter = true;                
             });
 
         }

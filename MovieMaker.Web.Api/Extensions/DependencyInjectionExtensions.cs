@@ -22,11 +22,9 @@ namespace MovieMaker.Web.Api.Extensions
             var section = configuration.GetSection("AppSettings");
             var settings = section.Get<AppSettings>();
 
-            var testEnv = Environment.GetEnvironmentVariable("ConnectionString");
-
             services.AddDbContext<MovieMakerDbContext>(options =>
             {
-                options.UseSqlServer("Server=/cloudsql/moviemaker-db;Database=MovieMakerDb;User ID=moviemaker-master;Password=M0vieMak&r;Encrypt=false");
+                options.UseSqlServer(settings.ConnectionString);
             });
         }
 

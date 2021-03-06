@@ -13,8 +13,9 @@ namespace MovieMaker.Web.Api.Extensions
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "MovieMaker",
-                    Version = "v1"
+                    Title = "Locadora MovieMaker Web Api",
+                    Version = "v1",
+                    Description = "Web Api da Locadora MovieMaker"                    
                 });
             });
 

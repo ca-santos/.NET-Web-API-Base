@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 namespace MovieMaker.Infra.Shared
 {
 
+    // Struct responsável em montar uma resposta mais coesa, onde 
+    // os erros e o sucesso podem ser agrupados
+    // Baseado em: https://github.com/ElemarJR/ElemarJR.FunctionalCSharp e
+    // https://github.com/hugoestevam/OptimusPrime/tree/master/Server/robot.Domain/Results
     public struct Response<TError, TSuccess> where TError : Exception
     {
 

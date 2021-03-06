@@ -15,17 +15,9 @@ namespace MovieMaker.Web.Api.Extensions
     public static class DependencyInjectionExtensions
     {
 
-        public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static void AddDependencies(this IServiceCollection services)
         {
             AddRepositories(services);
-
-            var section = configuration.GetSection("AppSettings");
-            var settings = section.Get<AppSettings>();
-
-            services.AddDbContext<MovieMakerDbContext>(options =>
-            {
-                options.UseSqlServer(settings.ConnectionString);
-            });
         }
 
         private static void AddRepositories(IServiceCollection services)

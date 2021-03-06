@@ -5,14 +5,12 @@ using MovieMaker.Domain.Features.Rentals;
 using MovieMaker.Infra.Data.Features.Genres;
 using MovieMaker.Infra.Data.Features.Movies;
 using MovieMaker.Infra.Data.Features.Rentals;
-using MovieMaker.Infra.Shared;
-using System;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace MovieMaker.Infra.Data.Context
 {
 
+    // Classe de contexto do banco para o entity
     public class MovieMakerDbContext : DbContext
     {
 
@@ -36,6 +34,7 @@ namespace MovieMaker.Infra.Data.Context
 
         }
 
+        // Gerador das migrações
         public void RunMigrations(DbContextOptions<MovieMakerDbContext> options)
         {
 

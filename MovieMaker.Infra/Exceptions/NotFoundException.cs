@@ -2,6 +2,7 @@
 
 namespace MovieMaker.Infra.Exceptions
 {
+    // Exceção para uma entidade não encontrada
     public class NotFoundException : AppBaseException
     {
         

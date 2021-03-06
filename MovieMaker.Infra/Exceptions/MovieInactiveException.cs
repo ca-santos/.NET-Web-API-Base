@@ -2,6 +2,7 @@
 
 namespace MovieMaker.Infra.Exceptions
 {
+    // Exceção para um filme inativo
     public class MovieInactiveException : AppBaseException
     {
         

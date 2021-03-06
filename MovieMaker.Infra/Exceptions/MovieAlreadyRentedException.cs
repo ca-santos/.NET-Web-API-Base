@@ -2,6 +2,7 @@
 
 namespace MovieMaker.Infra.Exceptions
 {
+    // Exceção para um filme já alugado
     public class MovieAlreadyRentedException : AppBaseException
     {
         

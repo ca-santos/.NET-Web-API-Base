@@ -22,49 +22,65 @@ namespace MovieMaker
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                                
-            }
 
             // Deixei o swaager disponível em todos os ambientes para que os docs da
-            // api possam ser expostos de uma forma mais fácil
-            app.UseDeveloperExceptionPage();
+            // api possam ser expostos de uma forma mais fácil            
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieMaker v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Locadora MovieMaker v1"));
 
-            // app.UseHttpsRedirection();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }            
 
+            // Roteamento
             app.UseRouting();
 
+            // Autorização
             app.UseAuthorization();
 
+            // Api endpoints
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
 
         // Configuração de alguns serviços
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDependencies(Configuration);
-
+            // Adiciona os controllers da API
             services.AddControllers();
-            services.AddAutoMapper();
-            services.AddSwagger();
-            services.AddMvcConfig();                
+
+            // Configs do DI
+            services.AddDependencies();
             
+            // Configuração do Automapper
+            services.AddAutoMapper();
+
+            // Configuração do swagger
+            services.AddSwagger();
+
+            // Configuração do MVC
+            services.AddMvcConfig();
+
+            // Configura o contexto do banco
+            services.AddDbContext(Configuration);
+
+            // Suprime os erros http do tipo 400
+            // para poder customizar as exceções
             services.Configure<ApiBehaviorOptions>(config =>
             {
-                config.SuppressModelStateInvalidFilter = true;                
+                config.SuppressModelStateInvalidFilter = true;
             });
 
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            // Configuração do Mediatr
             containerBuilder.AddMediator();
         }
 

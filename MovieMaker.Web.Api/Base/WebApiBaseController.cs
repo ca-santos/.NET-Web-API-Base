@@ -13,12 +13,16 @@ namespace MovieMaker.Web.Api.Base
     public class WebApiBaseController : ControllerBase
     {
 
+        // Manipula os commands e permite que os erros sejam retornados de 
+        // forma mais simples quando se está no contexto dos controllers
         protected IActionResult HandleCommand<TError, TSuccess>
             (Response<TError, TSuccess> result) where TError : Exception
         {
             return result.HasError ? HandleErrors(result.Error) : Ok(result.Success);
         }
 
+        // Manipula os retornos em lista, simplificando o retorno dos 
+        // erros e realizando o mapeamento para a view model informada
         protected IActionResult HandleQueryable<TFrom, TResult>(Response<Exception, IQueryable<TFrom>> result)
         {
             if (result.HasError)
@@ -27,6 +31,8 @@ namespace MovieMaker.Web.Api.Base
             return Ok(result.Success.ProjectTo<TResult>());
         }
 
+        // Manipula os retornos de entidades, simplificando o retorno dos 
+        // erros e realizando o mapeamento para a view model informada
         protected IActionResult HandleQuery<TFrom, TResult>(Response<Exception, TFrom> result)
         {
             if (result.HasError)
@@ -35,6 +41,8 @@ namespace MovieMaker.Web.Api.Base
             return Ok(Mapper.Map<TFrom, TResult>(result.Success));
         }
 
+        // Ponto central para a manipulação das exceções
+        // retornadas da camada de aplicação
         protected IActionResult HandleErrors<T>(T exceptionToHandle) where T : Exception
         {
 
@@ -42,6 +50,7 @@ namespace MovieMaker.Web.Api.Base
             ExceptionBase payload;
             int internalError = 0;
 
+            // Erros gerados pelo fluent validation
             if (exceptionToHandle is FluentValidation.ValidationException)
             {
 
@@ -51,6 +60,8 @@ namespace MovieMaker.Web.Api.Base
                 payload = ExceptionBase.GenerateNewError(exceptionToHandle, code, internalError, errors);
 
             }
+
+            // Erros gerados propositalmente pela aplicação
             else if (exceptionToHandle is AppBaseException)
             {
 
@@ -60,6 +71,8 @@ namespace MovieMaker.Web.Api.Base
                 payload = ExceptionBase.GenerateNewError(ex, code);
 
             }
+
+            // Qualquer outro tipo de erro
             else
             {
 

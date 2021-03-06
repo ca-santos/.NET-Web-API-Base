@@ -4,11 +4,7 @@ using System.Net;
 namespace MovieMaker.Infra.Exceptions
 {
     public abstract class AppBaseException : Exception
-    {
-
-        protected static string _BaseMessage;
-        protected static string _BaseReplaceableMessage;
-        protected static string _BaseReplaceableMessageWithId;       
+    { 
 
         public AppBaseException(HttpStatusCode httpCode, string message) : base(message)
         {
@@ -16,7 +12,9 @@ namespace MovieMaker.Infra.Exceptions
         }
 
         public HttpStatusCode StatusCode { get; }
-        
+
+        // Manipula a mensagem recebida para fornecer um 
+        // retorno mais amigável
         public static string DisplayMessage(
             string baseMessage, 
             string baseReplaceableMessage, 

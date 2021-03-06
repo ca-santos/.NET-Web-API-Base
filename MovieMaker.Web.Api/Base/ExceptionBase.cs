@@ -1,21 +1,24 @@
-﻿using AutoMapper.QueryableExtensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 
 namespace MovieMaker.Web.Api.Base
 {
-
+    
+    // Classe que permite que exceções personalizadas sejam lançadas    
     public class ExceptionBase
     {
 
+        // Código http
         public HttpStatusCode HttpCode { get; set; }
 
+        // Código interno da aplicação
         public int? InternalCode { get; set; }
 
+        // Mensagem de erro
         public string ErrorMessage { get; set; }
 
+        // Lista de erros de validação do fluent
         public List<ValidationFailure> Errors { get; set; }
 
         public static ExceptionBase GenerateNewError<T>(T exception, HttpStatusCode errorCode, int internalCode = 0, List<ValidationFailure> failures = null) where T : Exception
@@ -36,21 +39,37 @@ namespace MovieMaker.Web.Api.Base
 
     }
 
+    // Classe que retorna os erros do fluent validation
     public class ValidationFailure
     {
-        public string PropertyName { get; set; }
+        public string Property { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
 
-        public string ErrorCode { get; set; }
+        public string Code { get; set; }
     }
 
+    // Mapeamento para simplificar os retornos do fluent validation para o usuário final
     public class ValidationFailureMapper
     {
 
         public List<ValidationFailure> Map(IEnumerable<FluentValidation.Results.ValidationFailure> failures)
         {
-            return failures.AsQueryable().ProjectTo<ValidationFailure>().ToList();
+
+            List<ValidationFailure> errorList = new List<ValidationFailure>();
+
+            foreach(var fail in failures)
+            {
+                errorList.Add(new ValidationFailure
+                {
+                    Property = fail.PropertyName,
+                    Code = fail.ErrorCode,
+                    Message = fail.ErrorMessage
+                });
+            }
+
+            return errorList;
+
         }
 
     }

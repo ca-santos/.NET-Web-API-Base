@@ -39,33 +39,12 @@ namespace MovieMaker.Infra.Data.Context
         public void RunMigrations(DbContextOptions<MovieMakerDbContext> options)
         {
 
-            var connection = CheckConnection();
-            if (connection.HasError)
-                throw connection.Error;
-
             var inMemory = options.Extensions.FirstOrDefault(x => x.ToString().Contains("InMemoryOptionsExtension"));
 
             if (inMemory == null && Database.GetPendingMigrations().Any())
             {
                 Database.Migrate();
             }
-
-        }
-
-        public Response<Exception, bool> CheckConnection()
-        {
-
-            try
-            {
-                Database.OpenConnection();
-                Database.CloseConnection();
-            }
-            catch (SqlException ex)
-            {
-                return ex;
-            }
-
-            return true;
 
         }
 

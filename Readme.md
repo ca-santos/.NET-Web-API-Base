@@ -30,6 +30,6 @@ Esse tutorial descreve a execução em um ambiente Windows.
  1. Instale o Docker Desktop ([Download](https://www.docker.com/products/docker-desktop)) 
  2. Clone o repositório do projeto ([Link do repositório](https://github.com/caueSantos/Locadora-MovieMaker))
  3. Dentro da raiz do projeto:
-	 3.1 execute o seguinte comando ``docker-compose up --build -d``  ou
-	 3.2 Execute o arquivo ``run.ps1`` que se encontra na raiz
+     1. Execute o seguinte comando ``docker-compose up --build -d``  ou
+     2. Execute o arquivo ``run.sh`` que se encontra na raiz com um terminal do tipo bash
  4. No seu navegador navegue até a url ``http://localhost/swagger/index.html``

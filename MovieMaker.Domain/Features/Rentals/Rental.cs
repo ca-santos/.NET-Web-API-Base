@@ -28,7 +28,7 @@ namespace MovieMaker.Domain.Features.Rentals
 
         public void AddMovies(List<Movie> movies)
         {
-            Movies = movies;
+            movies.ForEach(movie => AddMovie(movie));            
         }
     }
 }

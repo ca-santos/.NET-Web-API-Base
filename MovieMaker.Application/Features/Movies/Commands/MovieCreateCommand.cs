@@ -7,7 +7,7 @@ using System;
 
 namespace MovieMaker.Application.Features.Movies.Commands
 {
-    public class MovieCreateCommand : IRequestWithResponse<Movie>
+    public class MovieCreateCommand : IRequestWithResponse<Movie>, ITransactionScope
     {
 
         public string Name { get; set; }

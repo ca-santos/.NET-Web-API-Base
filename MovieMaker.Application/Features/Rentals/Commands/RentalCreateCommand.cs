@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MovieMaker.Application.Features.Rentals.Commands
 {
-    public class RentalCreateCommand : IRequestWithResponse<Rental>
+    public class RentalCreateCommand : IRequestWithResponse<Rental>, ITransactionScope
     {
 
         public IEnumerable<int> MovieIds { get; set; }

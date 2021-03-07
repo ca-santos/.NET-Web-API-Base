@@ -4,7 +4,7 @@ using MovieMaker.Infra.Shared;
 
 namespace MovieMaker.Application.Features.Rentals.Commands
 {
-    public class RentalFinishCommand : IRequestWithResponse<AppUnit>
+    public class RentalFinishCommand : IRequestWithResponse<AppUnit>, ITransactionScope
     {
 
         public int RentalId{ get; set; }

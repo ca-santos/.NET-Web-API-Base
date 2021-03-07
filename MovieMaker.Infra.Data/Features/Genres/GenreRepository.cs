@@ -31,7 +31,7 @@ namespace MovieMaker.Infra.Data.Features.Movies
 
         public async Task<Response<Exception, Genre>> GetByIdAsync(int id)
         {
-
+            throw new Exception();
             var genre = await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
 
             if (genre == null)

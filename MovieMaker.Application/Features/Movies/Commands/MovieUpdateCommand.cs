@@ -4,7 +4,7 @@ using MovieMaker.Domain.Features.Movies;
 
 namespace MovieMaker.Application.Features.Movies.Commands
 {
-    public class MovieUpdateCommand : IRequestWithResponse<Movie>
+    public class MovieUpdateCommand : IRequestWithResponse<Movie>, ITransactionScope
     {
 
         public int Id { get; set; }

@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieMaker.Web.Api.Extensions;
 using Microsoft.AspNetCore.Mvc;
-
+using MediatR;
+using MovieMaker.Web.Api.Base;
 
 namespace MovieMaker
 {

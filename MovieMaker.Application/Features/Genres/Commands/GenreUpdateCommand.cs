@@ -4,7 +4,7 @@ using MovieMaker.Domain.Features.Genres;
 
 namespace MovieMaker.Application.Features.Genres.Commands
 {
-    public class GenreUpdateCommand : IRequestWithResponse<Genre>
+    public class GenreUpdateCommand : IRequestWithResponse<Genre>, ITransactionScope
     {
 
         public int Id { get; set; }

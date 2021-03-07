@@ -5,7 +5,7 @@ using MovieMaker.Infra.Shared;
 namespace MovieMaker.Application.Features.Genres.Commands
 {
 
-    public class GenreDeleteCommand : IRequestWithResponse<AppUnit>
+    public class GenreDeleteCommand : IRequestWithResponse<AppUnit>, ITransactionScope
     {
 
         public int Id { get; set; }

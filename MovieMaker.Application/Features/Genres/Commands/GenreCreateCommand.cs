@@ -5,7 +5,7 @@ using System;
 
 namespace MovieMaker.Application.Features.Genres.Commands
 {
-    public class GenreCreateCommand : IRequestWithResponse<Genre>
+    public class GenreCreateCommand : IRequestWithResponse<Genre>, ITransactionScope
     {
 
         public string Name { get; set; }

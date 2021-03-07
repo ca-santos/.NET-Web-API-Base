@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using MovieMaker.Application.Base;
 using MovieMaker.Application.Features.Genres.Commands;
 using MovieMaker.Domain.Features.Genres;
 using MovieMaker.Infra.Shared;
@@ -9,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace MovieMaker.Application.Features.Genres.Handlers
 {
-    public class GenreCreateHandler : IRequestHandler<GenreCreateCommand, Response<Exception, Genre>>
+    public class GenreCreateHandler 
+        : IRequestHandler<GenreCreateCommand, Response<Exception, Genre>>
     {
         
         private readonly IGenreRepository _genreRepository;

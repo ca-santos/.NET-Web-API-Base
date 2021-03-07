@@ -38,12 +38,14 @@ namespace MovieMaker.Web.Api.Extensions
                     .AsImplementedInterfaces();
             }
 
-            // Baseado em: https://github.com/jbogard/MediatR/wiki/Behaviors
+            // Baseado em: https://github.com/jbogard/MediatR/wiki/Behaviors            
             containerBuilder.RegisterGeneric(typeof(ValidationPipeline<,>)).As(typeof(IPipelineBehavior<,>));
+            containerBuilder.RegisterGeneric(typeof(TransactionPipeline<,>)).As(typeof(IPipelineBehavior<,>));
+
             containerBuilder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             containerBuilder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            containerBuilder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));            
-            containerBuilder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));            
+            containerBuilder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            containerBuilder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
             containerBuilder.Register<ServiceFactory>(ctx =>
             {
@@ -55,8 +57,8 @@ namespace MovieMaker.Web.Api.Extensions
 
         private static IEnumerable<Assembly> GetAssemblies()
         {
-            yield return typeof(IMediator).GetTypeInfo().Assembly;            
-            yield return typeof(AppModule).GetTypeInfo().Assembly;            
+            yield return typeof(IMediator).GetTypeInfo().Assembly;
+            yield return typeof(AppModule).GetTypeInfo().Assembly;
         }
 
     }

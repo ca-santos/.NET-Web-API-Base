@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace MovieMaker.Application.Features.Movies.Commands
 {
 
-    public class MovieDeleteMultipleCommand : IRequestWithResponse<AppUnit>
+    public class MovieDeleteMultipleCommand : IRequestWithResponse<AppUnit>, ITransactionScope
     {
 
         public List<int> MovieIds { get; set; }

@@ -5,7 +5,7 @@ using MovieMaker.Infra.Shared;
 namespace MovieMaker.Application.Features.Movies.Commands
 {
 
-    public class MovieDeleteCommand : IRequestWithResponse<AppUnit>
+    public class MovieDeleteCommand : IRequestWithResponse<AppUnit>, ITransactionScope
     {
 
         public int Id { get; set; }

@@ -7,6 +7,7 @@ using MovieMaker.Web.Api.Base;
 using MovieMaker.Application.Features.Rentals.Queries;
 using MovieMaker.Application.Features.Rentals.Commands;
 using System.Collections.Generic;
+using MovieMaker.Infra.Shared;
 
 namespace MovieMaker.Web.Api.Controllers.Rentals
 {
@@ -103,7 +104,7 @@ namespace MovieMaker.Web.Api.Controllers.Rentals
         /// <param name="rentalFinishCommand"></param>
         /// <returns></returns>
         [HttpPut("Finish")]
-        [ProducesResponseType(200, Type = typeof(Rental))]
+        [ProducesResponseType(200, Type = typeof(AppUnit))]
         [ProducesResponseType(400, Type = typeof(ExceptionBase))]
         [ProducesResponseType(500, Type = typeof(ExceptionBase))]
         public async Task<IActionResult> FinishRental([FromBody] RentalFinishCommand rentalFinishCommand)

@@ -3,6 +3,7 @@ using MediatR;
 using MovieMaker.Application.Features.Movies.Commands;
 using MovieMaker.Domain.Features.Genres;
 using MovieMaker.Domain.Features.Movies;
+using MovieMaker.Infra.Exceptions;
 using MovieMaker.Infra.Shared;
 using System;
 using System.Threading;
@@ -33,13 +34,21 @@ namespace MovieMaker.Application.Features.Movies.Handlers
             if (genreCallback.HasError)
                 return genreCallback.Error;
 
+            // Checa se o gênero escolhido está inativo
+            if (!genreCallback.Success.Active)
+                return new InactiveEntityException("Gênero");
+
+            // Faz o mapeamento do command para a entidade
             var movieMap = Mapper.Map<MovieCreateCommand, Movie>(request);
 
+            // Cria o filme
             var newMovieCallback = await _movieRepository.CreateAsync(movieMap);
 
+            // Verifica algum erro
             if (newMovieCallback.HasError)
                 return newMovieCallback.Error;
 
+            // Retorna o filme criado
             return newMovieCallback.Success;
 
         }

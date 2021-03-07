@@ -56,7 +56,7 @@ namespace MovieMaker.Application.Features.Rentals.Handlers
 
             // Retorna erro caso algum filme não esteja ativo
             if (movies.Any(x => x.Active == false))
-                return new MovieInactiveException();
+                return new InactiveEntityException("Filmes");
 
             // Retorna erro caso algum filme já esteja alugado
             // e não pertença a esse aluguel

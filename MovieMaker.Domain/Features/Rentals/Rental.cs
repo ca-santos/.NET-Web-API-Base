@@ -30,5 +30,15 @@ namespace MovieMaker.Domain.Features.Rentals
         {
             movies.ForEach(movie => AddMovie(movie));            
         }
+
+        public void FinishRental()
+        {
+            Movies.ForEach(movie =>
+            {
+                movie.ActiveRental = null;
+                movie.ActiveRentalId = null;
+            });
+        }
+
     }
 }

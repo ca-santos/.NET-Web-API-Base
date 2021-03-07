@@ -97,5 +97,19 @@ namespace MovieMaker.Web.Api.Controllers.Rentals
             return HandleCommand(await _mediator.Send(rentalUpdateCommand));
         }
 
+        /// <summary>
+        /// Finaliza um aluguel
+        /// </summary>
+        /// <param name="rentalFinishCommand"></param>
+        /// <returns></returns>
+        [HttpPut("Finish")]
+        [ProducesResponseType(200, Type = typeof(Rental))]
+        [ProducesResponseType(400, Type = typeof(ExceptionBase))]
+        [ProducesResponseType(500, Type = typeof(ExceptionBase))]
+        public async Task<IActionResult> FinishRental([FromBody] RentalFinishCommand rentalFinishCommand)
+        {
+            return HandleCommand(await _mediator.Send(rentalFinishCommand));
+        }
+
     }
 }

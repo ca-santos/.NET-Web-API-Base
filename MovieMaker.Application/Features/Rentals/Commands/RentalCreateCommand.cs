@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MovieMaker.Application.Base;
 using MovieMaker.Domain.Features.Rentals;
+using MovieMaker.Infra.Shared;
 using System;
 using System.Collections.Generic;
 
@@ -25,7 +26,9 @@ namespace MovieMaker.Application.Features.Rentals.Commands
 
             RuleFor(x => x.CustomerCPF)                
                 .NotEmpty()
-                .MaximumLength(14)
+                .Must(x => x.ValidateCpf())
+                .WithMessage("{PropertyName} é inválido.")
+                .MaximumLength(11)
                 .WithName("CPF do cliente");
 
         }

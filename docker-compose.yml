@@ -3,6 +3,7 @@ services:
 
   mmaker-database:
     container_name: mmaker-database
+    restart: always
     image: microsoft/mssql-server-linux:2017-latest
     ports:
       - "1433:1433"
@@ -14,6 +15,7 @@ services:
     container_name: mmaker-api
     build:
       context: ./
+    restart: always
     depends_on:
       - mmaker-database
     links:
